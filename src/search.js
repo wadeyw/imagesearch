@@ -2,11 +2,10 @@ var express=require('express');
 export var router=express.Router();
 var mongodb=require('./mongodb');
 var googleSearch=require('google-search');
+var request=require('request');
+var API_KEY=process.env.GOOGLE_API_KEY;
+var SE_ID=process.env.GOOGLE_CX_KEY;
 
-var google=new googleSearch({
-  key: 'AIzaSyCdn-i_i_Ya1o3_DFtfiNO2_cRJ7b55rts',
-  cx: ''
-});
 
 /*get image relate to query string*/
 router.get('/imagesearch/:query',function(req,res){
@@ -15,6 +14,39 @@ router.get('/imagesearch/:query',function(req,res){
       timestamp=Date.now();
   console.log('search for query:'+query+', offset:'+offset); 
  
+var url="https://www.googleapis.com/customsearch/v1?key="+API_KEY+"&cx="+SE_ID+"&q="+query+"&searchType=image";// 
+//start=offset||0;  // offset  Optional
+
+var requestObject={
+  uri:url,
+  method: 'GET',
+  timeout:10000
+};
+
+request(requestObject,function(error,response,body){
+  if(error)
+    thow(error);
+  else {
+    var array=[];  //store search result
+    var result=JSON.parse(body);
+    
+    console.log('Body parse:'+result);
+    var imageList=result.items;
+    
+    for(var i=0;i< imageList.length;i++){
+      var image={
+        "url": imageList[i].link,
+        "snippet": imageList[i].snippet,
+        "thumbnail": imageList[i].thumbnail,
+        "context": imageList[i].context
+      };
+      
+      array.push(image);
+    }
+    res.send(array);
+  }
+});
+
 
  let newSearch=new mongodb.imageSearch({timestamp:timestamp,query:query});
   
