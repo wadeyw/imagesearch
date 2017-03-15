@@ -1,0 +1,25 @@
+{
+  "name": "imagesearch",
+  "version": "1.0.0",
+  "description": "Image Search Abstraction Layer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+"scripts":{"start":"node index.js"},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wadeyw/imagesearch.git"
+  },
+  "keywords": [
+    "freecodecamp",
+    "image",
+    "search"
+  ],
+  "author": "Wade",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wadeyw/imagesearch/issues"
+  },
+  "homepage": "https://github.com/wadeyw/imagesearch#readme"
+}
