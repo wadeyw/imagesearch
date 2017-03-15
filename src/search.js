@@ -10,11 +10,11 @@ var SE_ID=process.env.GOOGLE_CX_KEY;
 /*get image relate to query string*/
 router.get('/imagesearch/:query',function(req,res){
   let query=req.params.query,
-      offset=req.query.offset||10,
+      offset=req.query.offset||1,
       timestamp=Date.now();
   console.log('search for query:'+query+', offset:'+offset); 
  
-var url="https://www.googleapis.com/customsearch/v1?key="+API_KEY+"&cx="+SE_ID+"&q="+query+"&searchType=image";// 
+var url="https://www.googleapis.com/customsearch/v1?key="+API_KEY+"&cx="+SE_ID+"&q="+query+"&searchType=image&start="+offset;// 
 //start=offset||0;  // offset  Optional
 console.log('Google URL: ',url);
 var requestObject={
@@ -31,7 +31,7 @@ request(requestObject,function(error,response,body){
     var result=JSON.parse(body);
     
     var imageList=result.items;
-    console.log('Image List:',imageList); 
+//    console.log('Image List:',imageList); 
     for(var i=0;i< imageList.length;i++){
       var image={
         "url": imageList[i].link,
