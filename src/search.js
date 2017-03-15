@@ -16,7 +16,7 @@ router.get('/imagesearch/:query',function(req,res){
  
 var url="https://www.googleapis.com/customsearch/v1?key="+API_KEY+"&cx="+SE_ID+"&q="+query+"&searchType=image";// 
 //start=offset||0;  // offset  Optional
-
+console.log('Google URL: ',url);
 var requestObject={
   uri:url,
   method: 'GET',
@@ -30,9 +30,8 @@ request(requestObject,function(error,response,body){
     var array=[];  //store search result
     var result=JSON.parse(body);
     
-    console.log('Body parse:'+result);
     var imageList=result.items;
-    
+    console.log('Image List:',imageList); 
     for(var i=0;i< imageList.length;i++){
       var image={
         "url": imageList[i].link,
